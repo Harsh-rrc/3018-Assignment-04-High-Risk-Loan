@@ -1,22 +1,8 @@
+// src/api/v1/errors/errors.ts
 import { HTTP_STATUS } from "../../../constants/httpConstants";
-
-/**
- * Base error class for application errors.
- * Extends the built-in Error class to include an error code and status code.
- *
- * This abstract class provides:
- * - Consistent error structure across the application
- * - HTTP status codes for proper REST API responses
- * - Error codes for programmatic error handling
- * - Proper prototype chain setup for instanceof checks
- */
-export class AppError extends Error {
-    /**
-     * Creates a new AppError instance.
-     * @param {string} message - The error message.
-     * @param {string} code - The error code.
-     * @param {number} statusCode - The http response code.
-     */
+ 
+// Base application error class
+export abstract class AppError extends Error {
     constructor(
         public message: string,
         public code: string,
@@ -28,42 +14,30 @@ export class AppError extends Error {
         Error.captureStackTrace(this, this.constructor);
     }
 }
-
-/**
- * Class representing a repository error.
- * Extends AppError to include database and data access specific errors.
- * Used for Firestore operations, connection issues, and data integrity problems.
- */
+ 
+// Repository layer error
 export class RepositoryError extends AppError {
     constructor(
         message: string,
-        code: string,
+        code: string = "REPOSITORY_ERROR",
         statusCode: number = HTTP_STATUS.INTERNAL_SERVER_ERROR
     ) {
         super(message, code, statusCode);
     }
 }
-
-/**
- * Class representing a service error.
- * Extends AppError to include business logic specific errors.
- * Used for validation failures, business rule violations, and processing errors.
- */
+ 
+// Service layer error
 export class ServiceError extends AppError {
     constructor(
         message: string,
         code: string = "SERVICE_ERROR",
-        statusCode: number = HTTP_STATUS.INTERNAL_SERVER_ERROR
+        statusCode: number = HTTP_STATUS.BAD_REQUEST
     ) {
         super(message, code, statusCode);
     }
 }
-
-/**
- * Class representing an authentication error.
- * Extends AppError to include token verification and user identity errors.
- * Used for invalid tokens, expired tokens, and missing authentication.
- */
+ 
+// Authentication error
 export class AuthenticationError extends AppError {
     constructor(
         message: string,
@@ -73,17 +47,46 @@ export class AuthenticationError extends AppError {
         super(message, code, statusCode);
     }
 }
-
-/**
- * Class representing an authorization error.
- * Extends AppError to include role-based access control errors.
- * Used for insufficient permissions and role validation failures.
- */
+ 
+// Authorization error
 export class AuthorizationError extends AppError {
     constructor(
         message: string,
         code: string = "AUTHORIZATION_ERROR",
         statusCode: number = HTTP_STATUS.FORBIDDEN
+    ) {
+        super(message, code, statusCode);
+    }
+}
+ 
+// Validation error
+export class ValidationError extends AppError {
+    constructor(
+        message: string,
+        code: string = "VALIDATION_ERROR",
+        statusCode: number = HTTP_STATUS.UNPROCESSABLE_ENTITY
+    ) {
+        super(message, code, statusCode);
+    }
+}
+ 
+// Not found error
+export class NotFoundError extends AppError {
+    constructor(
+        message: string,
+        code: string = "NOT_FOUND_ERROR",
+        statusCode: number = HTTP_STATUS.NOT_FOUND
+    ) {
+        super(message, code, statusCode);
+    }
+}
+
+// Internal server error
+export class InternalServerError extends AppError {
+    constructor(
+        message: string,
+        code: string = "INTERNAL_SERVER_ERROR",
+        statusCode: number = HTTP_STATUS.INTERNAL_SERVER_ERROR
     ) {
         super(message, code, statusCode);
     }

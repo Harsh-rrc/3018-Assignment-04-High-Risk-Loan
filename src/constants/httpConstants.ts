@@ -1,6 +1,3 @@
-/**
- * HTTP status codes used throughout the application
- */
 export const HTTP_STATUS = {
     // Success responses
     OK: 200,
