@@ -1,5 +1,6 @@
 import express from "express";
 import loanRoutes from "./api/v1/routes/loanRoutes";
+import userRoutes from "./api/v1/routes/userRoutes";
 import { requestLogger, errorLogger } from "./api/v1/middleware/logger";
 import errorHandler from "./api/v1/middleware/errorHandler";
 
@@ -9,6 +10,7 @@ app.use(express.json());
 app.use(requestLogger);
 
 app.use("/api/v1/loans", loanRoutes);
+app.use("/api/users", userRoutes);
 
 app.get("/test", (req, res) => res.send("OK"));
 
