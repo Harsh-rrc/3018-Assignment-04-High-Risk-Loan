@@ -10,4 +10,11 @@ module.exports = {
     'src/**/*.ts',
     '!src/**/*.d.ts',
   ],
+  moduleNameMapper: {
+    '^../src/(.*)$': '<rootDir>/src/$1',
+    '^../../src/(.*)$': '<rootDir>/src/$1',
+    '^../config/(.*)$': '<rootDir>/src/config/$1',
+    '^../../config/(.*)$': '<rootDir>/src/config/$1',
+    '^../errors/(.*)$': '<rootDir>/src/api/v1/errors/$1',
+  },
 };
