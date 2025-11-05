@@ -1,6 +1,7 @@
 import { Request, Response } from 'express';
 import admin from 'firebase-admin';
 
+// Controller to set custom user claims (roles)
 export const setCustomUserClaims = async (req: Request, res: Response) => {
   try {
     const { uid, role } = req.body;

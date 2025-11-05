@@ -36,4 +36,3 @@ export const getErrorStatusCode = (error: unknown): number => {
 export const isOperationalError = (error: unknown): boolean => {
     return error instanceof Error && 'statusCode' in error && 'code' in error;
 };
- 

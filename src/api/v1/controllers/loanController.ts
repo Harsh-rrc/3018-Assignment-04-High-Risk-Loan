@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
 
+// In-memory loan storage for demonstration purposes
 interface Loan {
   id: number;
   applicant: string;

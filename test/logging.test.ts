@@ -2,6 +2,7 @@ import express from "express";
 import request from "supertest";
 import { requestLogger } from "../src/api/v1/middleware/logger";
 
+// Create a simple Express app for testing
 const app = express();
 app.use(requestLogger);
 app.get("/ping", (req, res) => res.status(200).send("pong"));

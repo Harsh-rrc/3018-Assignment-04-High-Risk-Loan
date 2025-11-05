@@ -30,7 +30,7 @@ const errorLogger = (err: Error, req: Request, _res: Response, next: NextFunctio
     console.error(logMessage);
   }
 
-  next(err); // Pass to next error handler
+  next(err); // Pass the error to the next middleware
 };
 
 export { requestLogger, errorLogger };

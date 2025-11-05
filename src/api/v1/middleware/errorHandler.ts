@@ -2,7 +2,7 @@ import { Request, Response, NextFunction } from "express";
 import { AppError } from "../errors/errors";
 import { HTTP_STATUS } from "../../../constants/httpConstants";
 import { errorResponse } from "../models/responseModel";
- 
+
 // Centralized error handling middleware
 const errorHandler = (
     err: Error | null,
@@ -31,5 +31,5 @@ const errorHandler = (
         );
     }
 };
- 
+
 export default errorHandler;

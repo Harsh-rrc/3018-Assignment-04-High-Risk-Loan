@@ -3,13 +3,13 @@ import authenticate from "../src/api/v1/middleware/authenticate";
 import { AuthenticationError } from "../src/api/v1/errors/errors";
 
 // Mock Firebase auth
-jest.mock("../../src/config/firebase", () => ({
+jest.mock("../src/config/firebase", () => ({
     auth: {
         verifyIdToken: jest.fn(),
     },
 }));
 
-const { auth } = require("../../src/config/firebase");
+const { auth } = require("../src/config/firebase");
 
 describe("authenticate middleware", () => {
     let mockRequest: Partial<Request>;
@@ -101,6 +101,48 @@ describe("authenticate middleware", () => {
         // Missing "Bearer " prefix
         mockRequest.headers = {
             authorization: "InvalidFormat",
+        };
+
+        // Act
+        await authenticate(
+            mockRequest as Request,
+            mockResponse as Response,
+            nextFunction
+        );
+
+        // Assert
+        expect(nextFunction).toHaveBeenCalledWith(
+            expect.any(AuthenticationError)
+        );
+        const error = nextFunction.mock.calls[0][0];
+        expect(error.message).toBe("Unauthorized: No token provided");
+    });
+
+    it("should handle empty token in header", async () => {
+        // Arrange
+        mockRequest.headers = {
+            authorization: "Bearer ",
+        };
+
+        // Act
+        await authenticate(
+            mockRequest as Request,
+            mockResponse as Response,
+            nextFunction
+        );
+
+        // Assert
+        expect(nextFunction).toHaveBeenCalledWith(
+            expect.any(AuthenticationError)
+        );
+        const error = nextFunction.mock.calls[0][0];
+        expect(error.message).toBe("Unauthorized: No token provided");
+    });
+
+    it("should handle token with only spaces", async () => {
+        // Arrange
+        mockRequest.headers = {
+            authorization: "Bearer   ",
         };
 
         // Act
